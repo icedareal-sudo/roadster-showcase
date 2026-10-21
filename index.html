@@ -5,23 +5,490 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Roadster — a cinematic, future-forward performance showcase built for a premium launch page experience."
+      content="Roadster-inspired cinematic performance landing page built for a premium futuristic brand."
     />
-    <title>Roadster | The Future of Performance</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Roadster | Next Era</title>
+    <style>
+      :root {
+        --bg: #05070b;
+        --bg-2: #0a1016;
+        --panel: rgba(14, 18, 24, 0.76);
+        --panel-strong: rgba(9, 12, 17, 0.92);
+        --text: #edf5ff;
+        --muted: #a9b9c9;
+        --line: rgba(255, 255, 255, 0.08);
+        --blue: #7fd7ff;
+        --cyan: #53e7ff;
+        --teal: #8df5d4;
+        --shadow: 0 38px 80px rgba(0, 0, 0, 0.42);
+        --radius: 22px;
+        --max: 1240px;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background:
+          radial-gradient(circle at 20% 12%, rgba(127,215,255,.10), transparent 16%),
+          radial-gradient(circle at 80% 8%, rgba(141,245,212,.08), transparent 18%),
+          linear-gradient(180deg, #04070a 0%, #071018 40%, #04070a 100%);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      img { display: block; max-width: 100%; }
+
+      .container {
+        width: min(var(--max), calc(100% - 36px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 70;
+        border-bottom: 1px solid rgba(255,255,255,.04);
+        background: rgba(4,7,10,.2);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: background .25s ease, box-shadow .25s ease;
+      }
+
+      .site-header.scrolled {
+        background: rgba(4,7,10,.72);
+        box-shadow: 0 8px 30px rgba(0,0,0,.15);
+      }
+
+      .nav-wrap {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .brand-mark {
+        width: 30px; height: 30px;
+        display: inline-block;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f5fbff, #90dafd 25%, #0d1e2a 100%);
+        border: 1px solid rgba(255,255,255,.18);
+        box-shadow: 0 0 18px rgba(127,215,255,.25);
+        position: relative;
+      }
+
+      .brand-mark::before {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,.35);
+      }
+
+      .main-nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+      .main-nav a{ transition: color .2s ease; }
+      .main-nav a:hover { color: var(--text); }
+
+      .nav-cta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,.08);
+        background: rgba(255,255,255,.02);
+        color: var(--text);
+        font-weight: 700;
+        letter-spacing: .02em;
+        transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(127, 215, 255, 0.28);
+        box-shadow: 0 18px 32px rgba(0,0,0,.12);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--blue), var(--cyan));
+        color: #041018;
+        border: none;
+        box-shadow: 0 18px 42px rgba(83,231,255,.22);
+      }
+
+      .btn-ghost { background: rgba(255,255,255,.02); }
+
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: linear-gradient(90deg, rgba(4,7,10,.86) 0%, rgba(4,7,10,.56) 28%, rgba(4,7,10,.22) 55%, rgba(4,7,10,.76) 100%);
+      }
+
+      .hero-media, .hero-overlay { position: absolute; inset: 0; }
+
+      .hero-media::before {
+        content: "";
+        position: absolute; inset: 0;
+        background:
+          linear-gradient(90deg, rgba(3,6,10,.82), rgba(3,6,10,.38), rgba(3,6,10,.70)),
+          radial-gradient(circle at 65% 25%, rgba(127,215,255,.28), transparent 18%),
+          linear-gradient(135deg, rgba(10,17,22,.88), rgba(4,8,12,.88));
+        transform: scale(1.08);
+      }
+
+      .hero-overlay {
+        background:
+          linear-gradient(180deg, rgba(3,6,10,.14), rgba(3,6,10,.42)),
+          radial-gradient(circle at 66% 16%, rgba(127,215,255,.18), transparent 24%);
+      }
+
+      .hero-inner {
+        position: relative; z-index: 2;
+        width: 100%;
+        padding-top: 120px; padding-bottom: 52px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 8px 12px; border-radius: 999px;
+        background: rgba(127,215,255,.08); border: 1px solid rgba(127,215,255,.2);
+        color: var(--blue);
+        text-transform: uppercase; letter-spacing: .16em; font-size: 10px; font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(3rem, 6vw, 6rem);
+        line-height: .92; letter-spacing: -.07em; max-width: 760px;
+      }
+
+      .lead {
+        margin: 20px 0 28px;
+        color: var(--muted);
+        font-size: clamp(1.08rem, 1.8vw, 1.2rem);
+        max-width: 620px;
+      }
+
+      .hero-actions {
+        display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 24px;
+      }
+
+      .hero-stats {
+        display: inline-flex; flex-wrap: wrap; gap: 28px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: clamp(1.7rem, 2.7vw, 2.5rem);
+        letter-spacing: -.06em; line-height: 1;
+      }
+
+      .stat span { color: var(--muted); font-size: .9rem; }
+
+      .showcase {
+        background: linear-gradient(180deg, rgba(10,15,20,.7), rgba(8,12,17,.9));
+        border: 1px solid rgba(255,255,255,.06);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 18px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .showcase::before {
+        content: "";
+        position: absolute;
+        inset: 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(127,215,255,.08);
+        pointer-events: none;
+      }
+
+      .visual-card {
+        position: relative;
+        height: 420px;
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex; align-items: center; justify-content: center;
+        background:
+          radial-gradient(circle at 50% 30%, rgba(127,215,255,.18), transparent 18%),
+          linear-gradient(180deg, rgba(12,18,22,.9), rgba(8,12,17,.98));
+      }
+
+      .visual-card::before {
+        content: "";
+        position: absolute; inset: 0;
+        background:
+          linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.48)),
+          radial-gradient(circle at 50% 42%, rgba(127,215,255,.22), transparent 26%),
+          linear-gradient(130deg, rgba(18,28,36,.85), rgba(7,12,18,.96));
+      }
+
+      .car-glow {
+        position: absolute;
+        width: 340px; height: 340px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(127,215,255,.2), rgba(83,231,255,.08), transparent 68%);
+        filter: blur(10px);
+        z-index: 1;
+      }
+
+      .car-shell {
+        position: relative;
+        z-index: 2;
+        width: 300px; height: 96px;
+        background: linear-gradient(135deg, #f3f9ff, #b1e7ff 22%, #7ea4d7 52%, #0d1c2c 100%);
+        border-radius: 24px 30px 20px 18px;
+        transform: rotate(-8deg);
+        box-shadow: 0 32px 70px rgba(50,100,180,.22);
+        border: 1px solid rgba(255,255,255,.2);
+      }
+
+      .car-shell::before,
+      .car-shell::after {
+        content: "";
+        position: absolute;
+        width: 68px; height: 68px; border-radius: 50%;
+        bottom: -30px;
+        background: radial-gradient(circle at 35% 35%, #ebf7ff, #7e8b9a 40%, #0b1017 100%);
+        border: 2px solid rgba(255,255,255,.1);
+      }
+      .car-shell::before { left: 22px; }
+      .car-shell::after { right: 22px; }
+
+      .roof-line {
+        position: absolute;
+        width: 120px; height: 30px;
+        border-radius: 16px 18px 10px 10px;
+        background: rgba(255,255,255,.12);
+        top: 18px; left: 70px;
+        transform: skewX(-12deg);
+        z-index: 3;
+      }
+
+      .floating-panel {
+        position: absolute;
+        right: 18px; bottom: 18px;
+        width: 180px; padding: 14px 16px;
+        background: rgba(8,13,18,.86);
+        border: 1px solid rgba(255,255,255,.07);
+        border-radius: 16px;
+        z-index: 2;
+        box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      }
+      .panel-label { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+      .panel-value { margin-top: 8px; font-size: 1.75rem; letter-spacing: -.06em; font-weight: 800; }
+
+      .section { padding: 78px 0; }
+      .section-head {
+        display: flex; justify-content: space-between; align-items: flex-end; gap: 18px; margin-bottom: 28px;
+      }
+      .section-head h2 { margin: 0; font-size: clamp(2rem, 3vw, 3rem); letter-spacing: -.05em; }
+      .section-head p { margin: 0; max-width: 560px; color: var(--muted); }
+
+      .features-grid {
+        display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px;
+      }
+
+      .feature {
+        position: relative;
+        background: rgba(10,15,21,.7);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 24px 22px;
+        min-height: 220px;
+        overflow: hidden;
+      }
+      .feature::before {
+        content: "";
+        position: absolute; right: -26px; bottom: -24px;
+        width: 120px; height: 120px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(127,215,255,.12), transparent 60%);
+      }
+
+      .icon {
+        width: 46px; height: 46px; display: grid; place-items: center;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(127,215,255,.15), rgba(141,245,212,.08));
+        border: 1px solid rgba(127,215,255,.2);
+        margin-bottom: 14px; font-size: 1.1rem;
+      }
+      .feature h3 { margin: 0 0 10px; font-size: 1.15rem; }
+      .feature p { margin: 0; color: var(--muted); }
+
+      .story-layout {
+        display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 18px; align-items: stretch;
+      }
+
+      .story-box, .metric {
+        background: rgba(10,15,21,.7);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+      }
+      .story-box { padding: 22px; min-height: 310px; }
+      .story-box h3 { margin: 0 0 14px; font-size: 1.45rem; }
+
+      .timeline { display: grid; gap: 12px; margin-top: 8px; }
+      .step {
+        display: grid; grid-template-columns: 38px 1fr; gap: 14px;
+        border-bottom: 1px solid rgba(255,255,255,.04); padding: 12px 0;
+      }
+      .step:last-child { border-bottom: none; }
+      .step-number {
+        width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+        background: rgba(127,215,255,.08); border: 1px solid rgba(127,215,255,.18); color: var(--blue); font-weight: 800;
+      }
+      .step h4 { margin: 0 0 6px; font-size: 1rem; }
+      .step p { margin: 0; color: var(--muted); font-size: .94rem; }
+
+      .metrics {
+        display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; height: 100%;
+      }
+      .metric {
+        padding: 22px 18px; display: flex; flex-direction: column; justify-content: center; min-height: 150px;
+      }
+      .metric .label { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+      .metric .value { margin-top: 10px; font-size: clamp(2rem, 3vw, 2.8rem); letter-spacing: -.06em; font-weight: 800; }
+      .metric .note { color: var(--muted); margin-top: 8px; font-size: .92rem; }
+
+      .gallery {
+        display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 18px;
+      }
+      .gallery-main, .gallery-side .small {
+        border-radius: var(--radius); border: 1px solid var(--line); overflow: hidden; position: relative; min-height: 360px;
+      }
+      .gallery-main {
+        background:
+          linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.52)),
+          radial-gradient(circle at 35% 34%, rgba(127,215,255,.25), transparent 18%),
+          linear-gradient(135deg, rgba(10,18,26,.9), rgba(4,8,12,.96));
+      }
+      .gallery-side { display: grid; gap: 18px; }
+      .gallery-side .small { min-height: 170px; }
+      .gallery-side .small.one {
+        background:
+          linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.52)),
+          radial-gradient(circle at 50% 35%, rgba(127,215,255,.18), transparent 22%),
+          linear-gradient(135deg, rgba(10,16,23,.92), rgba(5,8,13,.96));
+      }
+      .gallery-side .small.two {
+        background:
+          linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.52)),
+          radial-gradient(circle at 42% 40%, rgba(141,245,212,.18), transparent 22%),
+          linear-gradient(135deg, rgba(9,15,21,.96), rgba(4,8,12,.96));
+      }
+
+      .plans { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+      .plan {
+        background: rgba(10,15,21,.72);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 22px; position: relative; display: flex; flex-direction: column; min-height: 330px;
+      }
+      .plan-featured {
+        background: linear-gradient(180deg, rgba(12,30,40,.84), rgba(8,12,18,1));
+        border-color: rgba(127,215,255,.24);
+        box-shadow: 0 20px 40px rgba(83,231,255,.08);
+      }
+      .pill {
+        position: absolute; right: 18px; top: 18px;
+        font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+        color: var(--teal); background: rgba(141,245,212,.08);
+        border: 1px solid rgba(141,245,212,.2); padding: 7px 9px; border-radius: 999px;
+      }
+      .plan h3 { margin: 0 0 10px; font-size: 1.2rem; }
+      .price { display: flex; align-items: flex-end; gap: 8px; margin: 8px 0; }
+      .price strong { font-size: 2.4rem; letter-spacing: -.06em; line-height: 1; }
+      .price span { color: var(--muted); }
+      .plan p { margin: 0 0 18px; color: var(--muted); }
+      .plan ul { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 10px; }
+      .plan li { display: flex; align-items: center; gap: 10px; font-size: .96rem; }
+      .plan li::before {
+        content: "✓"; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: .8rem;
+        background: rgba(141,245,212,.12); color: var(--teal); border: 1px solid rgba(141,245,212,.2);
+      }
+
+      .cta-box {
+        padding: 26px 28px;
+        border-radius: 22px;
+        border: 1px solid rgba(127,215,255,.18);
+        background: linear-gradient(90deg, rgba(127,215,255,.08), rgba(141,245,212,.04)), rgba(8,12,17,.82);
+        display: flex; justify-content: space-between; align-items: center; gap: 18px; box-shadow: var(--shadow);
+      }
+      .cta-box h3 { margin: 0 0 8px; font-size: clamp(1.6rem, 2.8vw, 2.6rem); letter-spacing: -.06em; }
+      .cta-box p { margin: 0; color: var(--muted); }
+
+      .site-footer {
+        padding: 26px 0 42px; border-top: 1px solid rgba(255,255,255,.05); color: var(--muted);
+      }
+      .footer-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+      .reveal {
+        opacity: 0; transform: translateY(26px);
+        transition: opacity .8s ease, transform .8s ease;
+      }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+
+      @media (max-width: 980px) {
+        .hero-inner { grid-template-columns: 1fr; }
+        .features-grid { grid-template-columns: 1fr 1fr; }
+        .story-layout, .gallery, .plans { grid-template-columns: 1fr; }
+        .section-head, .cta-box { flex-direction: column; align-items: flex-start; }
+        .main-nav { display: none; }
+      }
+
+      @media (max-width: 640px) {
+        .features-grid { grid-template-columns: 1fr; }
+        .hero-actions { flex-direction: column; align-items: flex-start; }
+        .hero-stats { gap: 18px; }
+        .nav-cta { gap: 8px; }
+        .nav-wrap { justify-content: space-between; }
+        .nav-cta .btn:first-child { display: none; }
+        .btn { width: 100%; }
+      }
+    </style>
   </head>
   <body>
     <header class="site-header" id="top">
       <div class="container nav-wrap">
         <a href="#top" class="brand" aria-label="Roadster home">
           <span class="brand-mark" aria-hidden="true"></span>
-          <span class="brand-text">Roadster</span>
+          <span>Roadster</span>
         </a>
 
         <nav class="main-nav" aria-label="Main navigation">
@@ -32,8 +499,8 @@
         </nav>
 
         <div class="nav-cta">
-          <a class="btn btn-ghost" href="#reserve">Pricing</a>
-          <a class="btn btn-primary" href="#reserve">Reserve</a>
+          <a href="#reserve" class="btn btn-ghost">Pricing</a>
+          <a href="#reserve" class="btn btn-primary">Reserve</a>
         </div>
       </div>
     </header>
@@ -48,8 +515,7 @@
             <div class="eyebrow">The future is immediate</div>
             <h1>Enter the next era of performance.</h1>
             <p class="lead">
-              Experience a vehicle built to feel impossible: brutally fast,
-              beautifully calibrated, and engineered like a cinematic statement.
+              Experience a vehicle built to feel impossible: brutally fast, beautifully calibrated, and engineered like a cinematic statement.
             </p>
 
             <div class="hero-actions">
@@ -58,18 +524,9 @@
             </div>
 
             <div class="hero-stats" aria-label="Roadster performance stats">
-              <div class="stat">
-                <strong>1.9s</strong>
-                <span>0–60 mph</span>
-              </div>
-              <div class="stat">
-                <strong>250+</strong>
-                <span>mile range</span>
-              </div>
-              <div class="stat">
-                <strong>400+</strong>
-                <span>top speed</span>
-              </div>
+              <div class="stat"><strong>1.9s</strong><span>0–60 mph</span></div>
+              <div class="stat"><strong>250+</strong><span>mile range</span></div>
+              <div class="stat"><strong>400+</strong><span>top speed</span></div>
             </div>
           </div>
 
@@ -79,7 +536,6 @@
               <div class="car-shell" aria-hidden="true">
                 <div class="roof-line" aria-hidden="true"></div>
               </div>
-
               <div class="floating-panel">
                 <div class="panel-label">Performance</div>
                 <div class="panel-value">1.9s</div>
@@ -93,34 +549,24 @@
         <div class="container">
           <div class="section-head reveal">
             <h2>Built to redefine what fast means.</h2>
-            <p>
-              Roadster was engineered to deliver speed that feels instinctive, layered with design precision, and shaped for a future that refuses compromise.
-            </p>
+            <p>Roadster was engineered to deliver speed that feels instinctive, layered with design precision, and shaped for a future that refuses compromise.</p>
           </div>
 
           <div class="features-grid">
             <article class="feature reveal">
               <div class="icon" aria-hidden="true">⚡</div>
               <h3>Unmatched acceleration</h3>
-              <p>
-                Launch-level power that feels immediate and visceral, with a response curve built for pure driver engagement.
-              </p>
+              <p>Launch-level power that feels immediate and visceral, with a response curve built for pure driver engagement.</p>
             </article>
-
             <article class="feature reveal">
               <div class="icon" aria-hidden="true">✦</div>
               <h3>Precision engineering</h3>
-              <p>
-                Sculpted surfaces, intelligent mass distribution, and aerodynamic refinement that turn raw power into control.
-              </p>
+              <p>Sculpted surfaces, intelligent mass distribution, and aerodynamic refinement that turn raw power into control.</p>
             </article>
-
             <article class="feature reveal">
               <div class="icon" aria-hidden="true">🛰️</div>
               <h3>Future-forward design</h3>
-              <p>
-                Minimal, bold, and unmistakably ahead of its time — built to feel like the next decade, not the current one.
-              </p>
+              <p>Minimal, bold, and unmistakably ahead of its time — built to feel like the next decade, not the current one.</p>
             </article>
           </div>
         </div>
@@ -130,15 +576,12 @@
         <div class="container">
           <div class="section-head reveal">
             <h2>A product story with intention.</h2>
-            <p>
-              It is not just a car — it is a statement of what performance can feel like when ambition, engineering, and elegance align.
-            </p>
+            <p>It is not just a car — it is a statement of what performance can feel like when ambition, engineering, and elegance align.</p>
           </div>
 
           <div class="story-layout">
             <div class="story-box reveal">
               <h3>From concept to reality.</h3>
-
               <div class="timeline">
                 <div class="step">
                   <div class="step-number">1</div>
@@ -147,7 +590,6 @@
                     <p>Every line is optimized for airflow, stability, and relentless forward momentum.</p>
                   </div>
                 </div>
-
                 <div class="step">
                   <div class="step-number">2</div>
                   <div>
@@ -155,7 +597,6 @@
                     <p>Cabin experience, power delivery, and fit-and-finish work together in perfect balance.</p>
                   </div>
                 </div>
-
                 <div class="step">
                   <div class="step-number">3</div>
                   <div>
@@ -172,19 +613,16 @@
                 <div class="value">1.9s</div>
                 <div class="note">Launch control response</div>
               </div>
-
               <div class="metric">
                 <div class="label">Range</div>
                 <div class="value">250+</div>
                 <div class="note">High-performance electric efficiency</div>
               </div>
-
               <div class="metric">
                 <div class="label">Top speed</div>
                 <div class="value">400+</div>
                 <div class="note">Track-inspired potential</div>
               </div>
-
               <div class="metric">
                 <div class="label">Power</div>
                 <div class="value">1,000+</div>
@@ -199,9 +637,7 @@
         <div class="container">
           <div class="section-head reveal">
             <h2>Visual architecture.</h2>
-            <p>
-              Every frame is designed to feel cinematic, layered, and premium — more like a motion piece than a conventional showroom page.
-            </p>
+            <p>Every frame is designed to feel cinematic, layered, and premium — more like a motion piece than a conventional showroom page.</p>
           </div>
 
           <div class="gallery reveal">
@@ -218,69 +654,57 @@
         <div class="container">
           <div class="section-head reveal">
             <h2>Reserve your place in the future.</h2>
-            <p>
-              High-performance packaging with premium options for drivers who want more than standard speed.
-            </p>
+            <p>High-performance packaging with premium options for drivers who want more than standard speed.</p>
           </div>
 
           <div class="plans">
             <article class="plan reveal">
               <h3>Roadster</h3>
-              <div class="price">
-                <strong>$200k</strong>
-                <span>base</span>
-              </div>
+              <div class="price"><strong>$200k</strong><span>base</span></div>
               <p>For drivers who want the purest expression of performance and design.</p>
               <ul>
                 <li>Launch control</li>
                 <li>Performance trim</li>
                 <li>Elite driving system</li>
               </ul>
-              <a href="#cta" class="btn btn-ghost">Reserve</a>
+              <a href="#top" class="btn btn-ghost">Reserve</a>
             </article>
 
             <article class="plan plan-featured reveal">
               <div class="pill">Most popular</div>
               <h3>Track Edition</h3>
-              <div class="price">
-                <strong>$250k</strong>
-                <span>starting</span>
-              </div>
+              <div class="price"><strong>$250k</strong><span>starting</span></div>
               <p>Optimized for drivers craving peak response, speed, and track-ready intensity.</p>
               <ul>
                 <li>Track-tuned chassis</li>
                 <li>Enhanced aero</li>
                 <li>Priority allocation</li>
               </ul>
-              <a href="#cta" class="btn btn-primary">Reserve</a>
+              <a href="#top" class="btn btn-primary">Reserve</a>
             </article>
 
             <article class="plan reveal">
               <h3>Founders Series</h3>
-              <div class="price">
-                <strong>$400k</strong>
-                <span>entry</span>
-              </div>
+              <div class="price"><strong>$400k</strong><span>entry</span></div>
               <p>For collectors and enthusiasts seeking a rare, highly distinguished ownership experience.</p>
               <ul>
                 <li>Collector package</li>
                 <li>Signature trim</li>
                 <li>Exclusive access</li>
               </ul>
-              <a href="#cta" class="btn btn-ghost">Reserve</a>
+              <a href="#top" class="btn btn-ghost">Reserve</a>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section cta-wrap" id="cta">
+      <section class="section">
         <div class="container">
           <div class="cta-box reveal">
             <div>
               <h3>Own the future.</h3>
               <p>Reserve your place before the next wave of performance begins.</p>
             </div>
-
             <div class="nav-cta">
               <a href="#reserve" class="btn btn-ghost">View pricing</a>
               <a href="#top" class="btn btn-primary">Reserve now</a>
@@ -297,6 +721,43 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+      const header = document.querySelector('.site-header');
+      const revealItems = document.querySelectorAll('.reveal');
+
+      function setHeaderState() {
+        if (window.scrollY > 12) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }
+
+      const revealObserver = 'IntersectionObserver' in window
+        ? new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('visible');
+                  revealObserver.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.15 }
+          )
+        : null;
+
+      revealItems.forEach((item) => {
+        if (revealObserver) {
+          revealObserver.observe(item);
+        } else {
+          item.classList.add('visible');
+        }
+      });
+
+      setHeaderState();
+      window.addEventListener('scroll', setHeaderState);
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>

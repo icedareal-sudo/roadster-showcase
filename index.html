@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Roadster premium film-inspired landing page with cinematic design, performance metrics, timeline, roadmap, and reserve options."
+      content="Roadster premium film-inspired landing page with cinematic style, performance metrics, roadmap, and reserve options."
     />
     <title>Roadster | Cinematic Performance</title>
     <style>
@@ -13,7 +13,7 @@
         --bg: #05080d;
         --bg-2: #0a1118;
         --panel: rgba(12, 17, 22, 0.8);
-        --panel-soft: rgba(20, 27, 34, 0.7);
+        --panel-soft: rgba(18, 25, 31, 0.74);
         --line: rgba(255,255,255,0.08);
         --text: #edf5ff;
         --muted: #a7b9c9;
@@ -39,6 +39,14 @@
         -webkit-font-smoothing: antialiased;
       }
 
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent 30%, rgba(255,255,255,0.01));
+        pointer-events: none;
+      }
+
       a { text-decoration: none; color: inherit; }
       img { display: block; max-width: 100%; }
       ul { list-style: none; margin: 0; padding: 0; }
@@ -52,7 +60,7 @@
         position: fixed;
         top: 0; left: 0; right: 0;
         z-index: 60;
-        background: rgba(4,7,10,.16);
+        background: rgba(4,7,10,.12);
         backdrop-filter: blur(12px);
         border-bottom: 1px solid rgba(255,255,255,.04);
       }
